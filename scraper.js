@@ -189,7 +189,6 @@ function getPage(userid, pwd) {
     })
 }
 
-getPage("m884b405", "4qL-V5X-GyF-KEP")
 // parseFile("m884b405")
 // parseFile("j211h991")
 // parseFile("s510g881")
