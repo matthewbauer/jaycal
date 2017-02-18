@@ -6,8 +6,18 @@ bodyParser = require('body-parser');
 app.use(express.static('static'))
 app.use(bodyParser())
 
+app.get('/ical', function (req, res) {
+    ical(req, res)
+})
+
 app.post('/ical', function (req, res) {
-    scraper.getPage(req.body.userid, req.body.pwd).then(function(body) {
+    ical(req, res)
+})
+
+function ical (req, res) {
+    userid = req.body.userid || req.query.userid
+    pwd = req.body.pwd || req.query.pwd
+    scraper.getPage(userid, pwd).then(function(body) {
         return scraper.parseStr(req.body.userid, body).then(function(r) {
             res.header("Content-Type", "text/calendar")
             res.send(r)
@@ -16,7 +26,7 @@ app.post('/ical', function (req, res) {
         res.send("error")
         console.log(err)
     })
-})
+}
 
 port = process.env.PORT || 8000
 app.listen(port, function () {
