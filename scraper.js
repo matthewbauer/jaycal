@@ -93,7 +93,7 @@ function toJCal(obj, id) {
                 description = c.name +
                     "\nsection number: " + s.number +
                     "\nunits: " + c.units +
-                    "\ninstructor: " + ", ".join(c.instructors)
+                    "\ninstructor: " + c.instructors.join(", ")
                 start_time = s.times.split(" ")[1]
 
                 end_time = s.times.split(" ")[3]
