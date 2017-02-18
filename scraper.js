@@ -38,6 +38,10 @@ function scrapeScheduleStr(str) {
         jsdom.env({
             html: str,
             done: function(err, obj) {
+                if (err) {
+                    reject(err)
+                    return
+                }
                 try {
                     result = scrapeScheduleObj(obj)
                 } catch(e) {
@@ -168,7 +172,7 @@ function toJCal(obj, id) {
 }
 
 function parseFile(id) {
-    scrapeScheduleStr(fs.readFileSync("./tests/" + id + ".html")).then(function(o) {
+    return scrapeScheduleStr(fs.readFileSync("./tests/" + id + ".html")).then(function(o) {
         jcal = toJCal(o.filter(isEnrolled), id)
         ical_str = ical.stringify(jcal)
         fs.writeFileSync(id + ".ics", ical_str)
@@ -188,14 +192,22 @@ function getPage(userid, pwd) {
                 'User-Agent': agent
             },
             jar: j,
-        }, function(err,res,body) {
+        }, function(err, res, body) {
+            if (err) {
+                reject(err)
+                return
+            }
             request({
                 url: "https://sa.ku.edu/psc/csprd/EMPLOYEE/HRMS/c/SA_LEARNER_SERVICES.SSR_SSENRL_LIST.GBL",
                 headers: {
                     'User-Agent': agent
                 },
                 jar: j
-            }, function(err,res,body) {
+            }, function(err, res, body) {
+                if (err) {
+                    reject(err)
+                    return
+                }
                 resolve(body)
             })
         })
