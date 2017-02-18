@@ -9,14 +9,10 @@ app.use(bodyParser())
 app.use(cookieParser())
 
 app.get('/schedule.ics', function (req, res) {
-    ical(req, res)
-})
-
-function ical (req, res) {
     userid = req.body.userid || req.query.userid || req.cookies["userid"]
     pwd = req.body.pwd || req.query.pwd || req.cookies["pwd"]
     scraper.getPage(userid, pwd).then(function(body) {
-        return scraper.parseStr(req.body.userid, body).then(function(r) {
+        return scraper.parseStr(userid, body).then(function(r) {
             res.header("Content-Type", "text/calendar")
             res.send(r)
         })
@@ -25,7 +21,7 @@ function ical (req, res) {
         res.send("error")
         console.log(err)
     })
-}
+})
 
 app.post('/calendar', function (req, res) {
     res.cookie("userid", req.body.userid)
