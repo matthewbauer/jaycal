@@ -1,0 +1,25 @@
+{
+  "name": "jayhacks-project",
+  "version": "1.0.0",
+  "description": "Project for jayhacks.io",
+  "main": "scraper.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/matthewbauer/jayhacks-project.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/matthewbauer/jayhacks-project/issues"
+  },
+  "homepage": "https://github.com/matthewbauer/jayhacks-project#readme",
+  "dependencies": {
+    "jsdom": "^9.11.0"
+  }
+}
