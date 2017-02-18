@@ -95,7 +95,7 @@ function toJCal(obj, id) {
                     "\nunits: " + c.units
                 if (s.room)
                     description += "\nroom number: " + s.room
-                if (s.instructions)
+                if (s.instructors)
                     description += "\ninstructor: " + s.instructors.join(", ")
 
                 start_time = s.times.split(" ")[1]
