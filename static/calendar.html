@@ -35,7 +35,13 @@ document.getElementById("ical-link").setAttribute("href", "/ical?userid=" + user
 $(document).ready(function() {
 
     $('#calendar').fullCalendar({
-        // put your options and callbacks here
+      header: {
+				left: 'prev,next today',
+				center: 'title',
+				right: 'month,agendaWeek,agendaDay'
+			},
+
+
     })
 
     req = new XMLHttpRequest()
@@ -52,8 +58,6 @@ $(document).ready(function() {
     };
     req.open('GET', "/ical?userid=" + userid + "&pwd=" + pwd)
     req.send()
-
-    add_recur_events()
 })
     </script>
   </body>
