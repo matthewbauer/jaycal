@@ -10,27 +10,29 @@
   </head>
   <body>
     <div><a id="ical-link">iCal link</a></div>
+    <div><a href="/logout">logout</a></div>
     <div id="calendar"></div>
     <script>
-var getUrlParameter = function getUrlParameter(sParam) {
-    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
-        sURLVariables = sPageURL.split('&'),
-        sParameterName,
-        i;
-
-    for (i = 0; i < sURLVariables.length; i++) {
-        sParameterName = sURLVariables[i].split('=');
-
-        if (sParameterName[0] === sParam) {
-            return sParameterName[1] === undefined ? true : sParameterName[1];
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
         }
     }
-};
+    return "";
+}
 
-userid = getUrlParameter('userid')
-pwd = getUrlParameter('pwd')
+userid = getCookie('userid')
+pwd = getCookie('pwd')
 
-document.getElementById("ical-link").setAttribute("href", "/ical?userid=" + userid + "&pwd=" + pwd)
+document.getElementById("ical-link").setAttribute("href", "/ical")
 
 $(document).ready(function() {
 
@@ -52,12 +54,13 @@ $(document).ready(function() {
         $('#calendar').fullCalendar('addEventSource', expand_recur_events)
          } else {
                alert("Error")
-               window.location.href = "/"
+               window.location.href = "/logout"
          }
       }
     };
-    req.open('GET', "/ical?userid=" + userid + "&pwd=" + pwd)
-    req.send()
+    req.open("POST", "/ical")
+    req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    req.send("userid=" + userid + "&pwd=" + pwd)
 })
     </script>
   </body>
