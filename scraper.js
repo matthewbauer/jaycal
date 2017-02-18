@@ -38,7 +38,13 @@ function scrapeScheduleStr(str) {
         jsdom.env({
             html: str,
             done: function(err, obj) {
-                resolve(scrapeScheduleObj(obj))
+                try {
+                    result = scrapeScheduleObj(obj)
+                } catch(e) {
+                    reject(e)
+                    return
+                }
+                resolve(result)
             }
         })
     })
@@ -164,6 +170,8 @@ function parseFile(id) {
     })
 }
 
+agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/602.4.8 (KHTML, like Gecko) Version/10.0.3 Safari/602.4.8"
+
 function getPage(userid, pwd) {
     return new Promise(function (resolve, reject) {
         var j = request.jar()
@@ -172,14 +180,14 @@ function getPage(userid, pwd) {
             method: "POST",
             form: {userid: userid, pwd: pwd},
             headers: {
-                'User-Agent': 'request'
+                'User-Agent': agent
             },
             jar: j,
         }, function(err,res,body) {
             request({
                 url: "https://sa.ku.edu/psc/csprd/EMPLOYEE/HRMS/c/SA_LEARNER_SERVICES.SSR_SSENRL_LIST.GBL",
                 headers: {
-                    'User-Agent': 'request'
+                    'User-Agent': agent
                 },
                 jar: j
             }, function(err,res,body) {
@@ -189,6 +197,10 @@ function getPage(userid, pwd) {
     })
 }
 
-// parseFile("m884b405")
-// parseFile("j211h991")
-// parseFile("s510g881")
+module.exports.getPage = getPage
+module.exports.parseStr = function(id, s) {
+    return scrapeScheduleStr(s).then(function(o) {
+        jcal = toJCal(o.filter(isEnrolled), id)
+        return ical.stringify(jcal)
+    })
+}

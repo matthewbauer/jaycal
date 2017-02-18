@@ -1,11 +1,22 @@
-var express = require('express')
-var app = express()
+express = require('express')
+app = express()
+scraper = require('./scraper')
+bodyParser = require('body-parser');
 
-// respond with "hello world" when a GET request is made to the homepage
-app.get('/', function (req, res) {
-  res.send('hello world')
-})
+app.use(express.static('static'))
+app.use(bodyParser())
 
 app.post('/ical', function (req, res) {
+    scraper.getPage(req.body.userid, req.body.pwd).then(function(body) {
+        return scraper.parseStr(req.body.userid, body).then(function(r) {
+            res.header("Content-Type", "text/calendar")
+            res.send(r)
+        })
+    }).catch(function (err) {
+        res.send("error")
+    })
+})
 
+app.listen(8000, function () {
+  console.log('Example app listening on port 80!')
 })
