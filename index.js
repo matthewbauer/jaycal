@@ -56,8 +56,14 @@ app.get('/dashboard', function (req, res) {
     res.sendFile(__dirname + "/static/dashboard.html")
 })
 
+app.post('/dashboard', function (req, res) {
+    res.cookie("userid", req.body.userid)
+    res.cookie("pwd", req.body.pwd)
+    res.sendFile(__dirname + "/static/dashboard.html")
+})
+
 app.get('/homeworks', function (req, res) {
-    res.sendFile(__dirname + "/static/calendar_hws.html")
+    res.sendFile(__dirname + "/static/calendar_hw.html")
 })
 
 app.get('/events', function (req, res) {
