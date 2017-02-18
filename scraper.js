@@ -93,9 +93,9 @@ function toJCal(obj, id) {
                 description = c.name +
                     "\nsection number: " + s.number +
                     "\nunits: " + c.units
-                if (c.room)
+                if (s.room)
                     description += "\nroom number: " + s.room
-                if (c.instructions)
+                if (s.instructions)
                     description += "\ninstructor: " + s.instructors.join(", ")
 
                 start_time = s.times.split(" ")[1]
