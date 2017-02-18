@@ -134,9 +134,9 @@ function toJCal(obj, id) {
 
                 return ["vevent",
                         [
-                            ["dtstamp", { "tzid": "UTC" }, "date-time", (new Date()).toISOString()],
-                            ["dtstart", { "tzid": "UTC" }, "date-time", start.toISOString()],
-                            ["dtend", { "tzid": "UTC" }, "date-time", start_end.toISOString()],
+                            ["dtstamp", {}, "date-time", (new Date()).toISOString()],
+                            ["dtstart", {}, "date-time", start.toISOString()],
+                            ["dtend", {}, "date-time", start_end.toISOString()],
                             ["location", {}, "text", s.room],
                             ["organizer", {}, "text", "mailto:" + email],
                             ["uid", {}, "text", "" + Math.floor(Math.random() * Math.pow(10, 10))],
