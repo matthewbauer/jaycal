@@ -92,10 +92,11 @@ function toJCal(obj, id) {
                 summary = c.name.split(" - ")[0]
                 description = c.name +
                     "\nsection number: " + s.number +
-                    "\nunits: " + c.units +
-                    "\nroom number: " + c.room
+                    "\nunits: " + c.units
+                if (c.room)
+                    description += "\nroom number: " + s.room
                 if (c.instructions)
-                    description += "\ninstructor: " + c.instructors.join(", ")
+                    description += "\ninstructor: " + s.instructors.join(", ")
 
                 start_time = s.times.split(" ")[1]
 
