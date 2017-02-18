@@ -1,6 +1,9 @@
 fs = require("fs")
+https = require("https")
 jsdom = require("jsdom")
 ical = require("ical.js")
+formurlencoded = require('form-urlencoded')
+request = require("request")
 
 function scrapeScheduleObj(obj) {
     classes = obj.document.getElementById("ACE_STDNT_ENRL_SSV2$0").getElementsByClassName("PSGROUPBOXWBO")
@@ -161,6 +164,32 @@ function parseFile(id) {
     })
 }
 
-parseFile("m884b405")
-parseFile("j211h991")
-parseFile("s510g881")
+function getPage(userid, pwd) {
+    return new Promise(function (resolve, reject) {
+        var j = request.jar()
+        request({
+            url : "https://sa.ku.edu/psp/csprd/?cmd=login&languageCd=ENG&",
+            method: "POST",
+            form: {userid: userid, pwd: pwd},
+            headers: {
+                'User-Agent': 'request'
+            },
+            jar: j,
+        }, function(err,res,body) {
+            request({
+                url: "https://sa.ku.edu/psc/csprd/EMPLOYEE/HRMS/c/SA_LEARNER_SERVICES.SSR_SSENRL_LIST.GBL",
+                headers: {
+                    'User-Agent': 'request'
+                },
+                jar: j
+            }, function(err,res,body) {
+                resolve(body)
+            })
+        })
+    })
+}
+
+getPage("m884b405", "4qL-V5X-GyF-KEP")
+// parseFile("m884b405")
+// parseFile("j211h991")
+// parseFile("s510g881")
