@@ -13,26 +13,57 @@
     <div><a href="/logout">logout</a></div>
     <div id="calendar"></div>
     <script>
+
+function hash_code(string) {
+    h = 0
+    for (i = 0; i < string.length; i++) {
+        h = string.charCodeAt(i) + ((h << 5) - h);
+    }
+    return h
+}
+
+function hash_color(string) {
+    return 'hsl('+hash_code(string)%360+', 70%, 50%)'
+}
+
+function colorize_event(e) {
+    for (c of e.classList) {
+       if (c.startsWith('event-')) {
+           e.style['background'] = e.style['border-color'] = hash_color(c)
+       }
+    }
+}
+
+function colorize_events() {
+    console.log("colorize")
+    ee = document.getElementsByClassName('fc-event')
+    for (i in ee) {
+        try {
+            colorize_event(ee[i])
+        } catch (TypeError) {}
+    }
+}
+
 function getCookie(cname) {
-    var name = cname + "=";
-    var decodedCookie = decodeURIComponent(document.cookie);
-    var ca = decodedCookie.split(';');
+    var name = cname + "="
+    var decodedCookie = decodeURIComponent(document.cookie)
+    var ca = decodedCookie.split(';')
     for(var i = 0; i <ca.length; i++) {
-        var c = ca[i];
+        var c = ca[i]
         while (c.charAt(0) == ' ') {
-            c = c.substring(1);
+            c = c.substring(1)
         }
         if (c.indexOf(name) == 0) {
-            return c.substring(name.length, c.length);
+            return c.substring(name.length, c.length)
         }
     }
-    return "";
+    return ""
 }
 
 userid = getCookie('userid')
 pwd = getCookie('pwd')
 
-document.getElementById("ical-link").setAttribute("href", "/ical")
+document.getElementById("ical-link").setAttribute("href", "/schedule.ics")
 
 $(document).ready(function() {
 
@@ -42,17 +73,15 @@ $(document).ready(function() {
 				center: 'title',
 				right: 'month,agendaWeek,agendaDay'
 			},
-
-
     })
 
     req = new XMLHttpRequest()
     req.onreadystatechange = function (oEvent) {
     if (req.readyState === 4) {
         if (req.status === 200) {
-            $('#calendar').fullCalendar('addEventSource', fc_events(this.response, {color:'gold'}))
+            $('#calendar').fullCalendar('addEventSource', fc_events(this.response, {}))
             $('#calendar').fullCalendar('addEventSource', expand_recur_events)
-
+//            colorize_events()
          } else if (req.status == 0) {
          } else {
                alert("Error")
@@ -60,10 +89,10 @@ $(document).ready(function() {
          }
       }
     };
-    req.open("POST", "/ical")
-    req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    req.send("userid=" + userid + "&pwd=" + pwd)
+    req.open("GET", "/schedule.ics")
+    req.send()
 })
+
     </script>
   </body>
 </html>

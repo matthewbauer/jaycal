@@ -8,11 +8,7 @@ app.use(express.static('static'))
 app.use(bodyParser())
 app.use(cookieParser())
 
-app.get('/ical', function (req, res) {
-    ical(req, res)
-})
-
-app.post('/ical', function (req, res) {
+app.get('/schedule.ics', function (req, res) {
     ical(req, res)
 })
 
