@@ -18,14 +18,14 @@ app.use(cookieParser())
 app.get('/schedule.ics', function (req, res) {
     userid = req.body.userid || req.query.userid || req.cookies["userid"]
     pwd = req.body.pwd || req.query.pwd || req.cookies["pwd"]
-    client.get(userid, function (err, reply) {
+    client.get(userid + pwd, function (err, reply) {
         if (reply != null) {
             res.header("Content-Type", "text/calendar")
             res.send(reply)
         } else {
             scraper.getPage(userid, pwd).then(function(body) {
                 return scraper.parseStr(userid, body).then(function(r) {
-                    client.set(userid, r)
+                    client.set(userid + pwd, r)
                     res.header("Content-Type", "text/calendar")
                     res.send(r)
                 })
