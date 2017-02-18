@@ -49,6 +49,7 @@
             rootpath: "/assets/"
         };
     </script>
+    <link rel="stylesheet" href="assets/css/style-switcher.css">
     <link rel="stylesheet/less" type="text/css" href="assets/less/theme.less">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/2.7.1/less.js"></script>
 	
@@ -458,7 +459,6 @@ body {
 		
 		<div><a id="ical-link"></a></div>
 				<div id="calendar" height = auto;>
-				<button onclick="colorize_events()">Colorize</button>
 				</div>
 		
 	    </div>
@@ -583,6 +583,52 @@ body {
             <script src="assets/js/app.js"></script>
 
 					  <script src="calendar.js"></script>
+            <script>
+var getUrlParameter = function getUrlParameter(sParam) {
+    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : sParameterName[1];
+        }
+    }
+};
+
+userid = getUrlParameter('userid')
+pwd = getUrlParameter('pwd')
+
+document.getElementById("ical-link").setAttribute("href", "/ical?userid=" + userid + "&pwd=" + pwd)
+
+$(document).ready(function() {
+
+    $('#calendar').fullCalendar({
+        header: {
+		left: 'prev,next,today',
+		center: 'title',
+		right: 'month,agendaWeek, agendaDay'
+		}
+    })
+
+    req = new XMLHttpRequest()
+    req.onreadystatechange = function (oEvent) {
+    if (req.readyState === 4) {
+         if (req.status === 200) {
+                    $('#calendar').fullCalendar('addEventSource', fc_events(this.response, {color:'gold'}))
+                    $('#calendar').fullCalendar('addEventSource', expand_recur_events)
+         }
+      }
+    };
+    req.open('GET', "src/Files/academics.ics")
+    req.send()
+
+    add_recur_events()
+})
+            </script>
         </body>
 
 </html>

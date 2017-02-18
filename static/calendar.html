@@ -31,7 +31,10 @@
     <!-- animate.css stylesheet -->
     <link rel="stylesheet" href="assets/lib/animate.css/animate.css">
 
-<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.5/fullcalendar.min.css">
+
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -46,10 +49,20 @@
             rootpath: "/assets/"
         };
     </script>
+    <link rel="stylesheet" href="assets/css/style-switcher.css">
     <link rel="stylesheet/less" type="text/css" href="assets/less/theme.less">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/2.7.1/less.js"></script>
 	
-	<style>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="moment.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.2.0/fullcalendar.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.2.0/fullcalendar.min.css">
+    <script src="ical.min.js"></script>
+    <script src="ical_events.js"></script>
+    <script src="ical_fullcalendar.js"></script>
+	  <script src="src/js/colorize_fullcalender.js"></script>
+
+	  <style>
 body {
    font-size 14px;
 }
@@ -65,13 +78,6 @@ body {
 }
 </style>
 
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-    <script src="moment.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.2.0/fullcalendar.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.2.0/fullcalendar.min.css">
-    <script src="ical.min.js"></script>
-    <script src="ical_events.js"></script>
-    <script src="ical_fullcalendar.js"></script>
 
   </head>
 
@@ -459,7 +465,6 @@ body {
 		
 		<div><a id="ical-link"></a></div>
 				<div id="calendar">
-				<button onclick="colorize_events()">Colorize</button>
 				</div>
 		
 	    </div>
@@ -584,6 +589,8 @@ body {
             <script src="assets/js/app.js"></script>
 
 					  <script src="calendar.js"></script>
-        </body>
+
+            <script src="assets/js/style-switcher.js"></script>
+      </body>
 
 </html>
