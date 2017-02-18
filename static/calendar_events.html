@@ -602,8 +602,6 @@ var getUrlParameter = function getUrlParameter(sParam) {
 userid = getUrlParameter('userid')
 pwd = getUrlParameter('pwd')
 
-document.getElementById("ical-link").setAttribute("href", "/ical?userid=" + userid + "&pwd=" + pwd)
-
 $(document).ready(function() {
 
     $('#calendar').fullCalendar({
@@ -629,6 +627,7 @@ $(document).ready(function() {
     add_recur_events()
 })
             </script>
+
         </body>
 
 </html>
