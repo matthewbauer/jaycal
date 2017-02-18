@@ -48,6 +48,18 @@ app.get('/calendar', function (req, res) {
     res.sendFile(__dirname + "/static/calendar.html")
 })
 
+app.get('/dashboard', function (req, res) {
+    res.sendFile(__dirname + "/static/dashboard.html")
+})
+
+app.get('/homeworks', function (req, res) {
+    res.sendFile(__dirname + "/static/calendar_hws.html")
+})
+
+app.get('/events', function (req, res) {
+    res.sendFile(__dirname + "/static/calendar_events.html")
+})
+
 app.get('/logout', function (req, res) {
     res.cookie("userid", "")
     res.cookie("pwd", "")
@@ -62,7 +74,7 @@ app.get('/', function (req, res) {
     if (!req.cookies["userid"] || req.cookies["userid"] == "")
         res.redirect("/login")
     else
-        res.redirect("/calendar")
+        res.redirect("/dashboard")
 })
 
 port = process.env.PORT || 8000
