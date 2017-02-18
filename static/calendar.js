@@ -66,8 +66,7 @@ $(document).ready(function() {
 //            colorize_events()
          } else if (req.status == 0) {
          } else {
-               alert("Error")
-               window.location.href = "/logout"
+             window.location.href = "/logout"
          }
       }
     };
