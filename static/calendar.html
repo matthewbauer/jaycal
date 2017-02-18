@@ -39,10 +39,17 @@ $(document).ready(function() {
     })
 
     req = new XMLHttpRequest()
-    req.addEventListener('load', function() {
+    req.onreadystatechange = function (oEvent) {
+    if (req.readyState === 4) {
+         if (req.status === 200) {
         $('#calendar').fullCalendar('addEventSource', fc_events(this.response, {color:'gold'}))
         $('#calendar').fullCalendar('addEventSource', expand_recur_events)
-    })
+         } else {
+               alert("Error")
+               window.location.href = "/"
+         }
+      }
+    };
     req.open('GET', "/ical?userid=" + userid + "&pwd=" + pwd)
     req.send()
 

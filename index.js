@@ -23,6 +23,7 @@ function ical (req, res) {
             res.send(r)
         })
     }).catch(function (err) {
+        res.status(500)
         res.send("error")
         console.log(err)
     })
