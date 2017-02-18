@@ -14,6 +14,7 @@ app.post('/ical', function (req, res) {
         })
     }).catch(function (err) {
         res.send("error")
+        console.log(err)
     })
 })
 
