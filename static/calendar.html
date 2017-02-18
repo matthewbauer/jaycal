@@ -1,0 +1,53 @@
+<html>
+  <head>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="moment.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.2.0/fullcalendar.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.2.0/fullcalendar.min.css">
+    <script src="ical.min.js"></script>
+    <script src="ical_events.js"></script>
+    <script src="ical_fullcalendar.js"></script>
+  </head>
+  <body>
+    <div><a id="ical-link">iCal link</a></div>
+    <div id="calendar"></div>
+    <script>
+var getUrlParameter = function getUrlParameter(sParam) {
+    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : sParameterName[1];
+        }
+    }
+};
+
+userid = getUrlParameter('userid')
+pwd = getUrlParameter('pwd')
+
+document.getElementById("ical-link").setAttribute("href", "/ical?userid=" + userid + "&pwd=" + pwd)
+
+$(document).ready(function() {
+
+    $('#calendar').fullCalendar({
+        // put your options and callbacks here
+    })
+
+    req = new XMLHttpRequest()
+    req.addEventListener('load', function() {
+        $('#calendar').fullCalendar('addEventSource', fc_events(this.response, {color:'gold'}))
+        $('#calendar').fullCalendar('addEventSource', expand_recur_events)
+    })
+    req.open('GET', "/ical?userid=" + userid + "&pwd=" + pwd)
+    req.send()
+
+    add_recur_events()
+})
+    </script>
+  </body>
+</html>
