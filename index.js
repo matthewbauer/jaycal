@@ -49,6 +49,10 @@ app.get('/calendar', function (req, res) {
 })
 
 app.get('/dashboard', function (req, res) {
+    if (!req.cookies["userid"] || req.cookies["userid"] == "") {
+        res.redirect("/login")
+        return
+    }
     res.sendFile(__dirname + "/static/dashboard.html")
 })
 
