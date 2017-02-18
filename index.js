@@ -10,7 +10,6 @@ app.post('/ical', function (req, res) {
     scraper.getPage(req.body.userid, req.body.pwd).then(function(body) {
         return scraper.parseStr(req.body.userid, body).then(function(r) {
             res.header("Content-Type", "text/calendar")
-            res.header("Content-Disposition", 'inline; filename="' + id + '.ics"')
             res.send(r)
         })
     }).catch(function (err) {
