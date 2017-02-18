@@ -5,12 +5,11 @@ bodyParser = require('body-parser')
 cookieParser = require('cookie-parser')
 redis = require("redis")
 
-client = redis.createClient()
+client = redis.createClient(process.env.REDIS_URL || 6379);
 
 client.on("error", function (err) {
     console.log("Error " + err);
 })
-
 
 app.use(express.static('static'))
 app.use(bodyParser())
@@ -21,10 +20,12 @@ app.get('/schedule.ics', function (req, res) {
     pwd = req.body.pwd || req.query.pwd || req.cookies["pwd"]
     client.get(userid, function (err, reply) {
         if (reply != null) {
-
+            res.header("Content-Type", "text/calendar")
+            res.send(reply)
         } else {
             scraper.getPage(userid, pwd).then(function(body) {
                 return scraper.parseStr(userid, body).then(function(r) {
+                    client.set(userid, r)
                     res.header("Content-Type", "text/calendar")
                     res.send(r)
                 })
