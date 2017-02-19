@@ -25,6 +25,7 @@ $(document).ready(function() {
 				center: 'title',
 				right: 'month,agendaWeek,agendaDay'
 			},
+        defaultView: "agendaWeek"
     })
 
     req = new XMLHttpRequest()
