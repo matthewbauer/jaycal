@@ -12,3 +12,10 @@ The website contains:
 It's a 1 stop place where you can find what's happening on campus and in your own academics. This utility can potentially enable users to make decisions regarding their time management/scheduling. That's really important for student success. We hope this utility helps students in their time management skills.
 
 Made for Jayhacks, KU hackathon 2017.
+
+## Contributors
+
+- Matthew Bauer
+- Saharsh Gupta
+- Jordan Hirsekorn
+- Michael Wilkes
