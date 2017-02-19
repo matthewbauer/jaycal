@@ -26,25 +26,25 @@ app.get('*',function(req,res,next){
 app.get('/schedule.ics', function (req, res) {
     userid = req.body.userid || req.query.userid || req.cookies["userid"]
     pwd = req.body.pwd || req.query.pwd || req.cookies["pwd"]
-    key = userid + pwd + "1"
-    client.get(key, function (err, reply) {
+    key = userid + pwd + "2"
+    client.get(key, function (userid, pwd, key, err, reply) {
         if (reply != null) {
             res.header("Content-Type", "text/calendar")
             res.send(reply)
         } else {
-            scraper.getPage(userid, pwd).then(function(body) {
-                return scraper.parseStr(userid, body).then(function(r) {
+            scraper.getPage(userid, pwd).then(function(userid, key, body) {
+                return scraper.parseStr(userid, body).then(function(key, r) {
                     client.set(key, r)
                     res.header("Content-Type", "text/calendar")
                     res.send(r)
-                })
-            }).catch(function (err) {
+                }.bind(key))
+            }.bind(userid, key).catch(function (err) {
                 res.status(500)
                 res.send("error")
                 console.log(err)
             })
         }
-    })
+    }.bind(userid, pwd, key))
 })
 
 app.post('/calendar', function (req, res) {
