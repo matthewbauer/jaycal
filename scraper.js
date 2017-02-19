@@ -27,7 +27,7 @@ function scrapeScheduleObj(obj) {
                     instructors: t.getElementsByClassName("PSLONGEDITBOX")[0].textContent.split(", \n"),
                     // section: t.getElementsByClassName("PSHYPERLINK")[0].textContent,
                 }
-            })
+            }).filter(hasSection)
 
         }
     })
@@ -85,6 +85,10 @@ function getDays(dates) {
 
 function isEnrolled(obj) {
     return obj.status == "Enrolled"
+}
+
+function hasSection(obj) {
+    return obj.number != " "
 }
 
 function toJCal(obj, id) {
