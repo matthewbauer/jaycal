@@ -38,7 +38,7 @@ app.get('/schedule.ics', function (req, res) {
                     res.header("Content-Type", "text/calendar")
                     res.send(r)
                 }.bind(key))
-            }.bind(userid, key).catch(function (err) {
+            }.bind(userid, key)).catch(function (err) {
                 res.status(500)
                 res.send("error")
                 console.log(err)
