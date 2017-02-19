@@ -19,3 +19,15 @@ Made for Jayhacks, KU hackathon 2017.
 - Saharsh Gupta
 - Jordan Hirsekorn
 - Michael Wilkes
+
+## frameworks/libraries used
+
+- jquery
+- bootstrap
+- NodeJS
+- FullCalendar
+- iCalendar2FullCalendar
+- jsdom
+- request
+- ical.js
+- heroku
