@@ -1,4 +1,4 @@
-# jaycal
+# JayCal
 
 Automagically generate a calendar using your university account. It takes your university class list and makes a shareable calendar file.
 
