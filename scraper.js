@@ -141,6 +141,9 @@ function toJCal(obj, id) {
                 end = new Date(s.dates.split(" - ")[1])
                 end.setDate(end.getDate() - 7)
 
+                subject = c.name.split(" - ")[0].replace(" ", "+")
+                url = "https://classes.ku.edu/Classes/CourseSearchAPI.action?classesSearchText=" + subject
+
                 return ["vevent",
                         [
                             ["dtstamp", {}, "date-time", (new Date()).toISOString()],
@@ -155,6 +158,7 @@ function toJCal(obj, id) {
                                 "freq": "WEEKLY",
                                 "until": end.toISOString(),
                             }],
+                            ["url", {}, "text", url]
                         ],
                         []
                        ]

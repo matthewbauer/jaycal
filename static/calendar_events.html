@@ -308,17 +308,23 @@ $(document).ready(function() {
 		}
     })
 
+    function addIcal(fname, color) {
+                   
     req = new XMLHttpRequest()
     req.onreadystatechange = function (oEvent) {
     if (req.readyState === 4) {
          if (req.status === 200) {
-                    $('#calendar').fullCalendar('addEventSource', fc_events(this.response, {color:'gold'}))
+                    $('#calendar').fullCalendar('addEventSource', fc_events(this.response, {color:color}))
                     $('#calendar').fullCalendar('addEventSource', expand_recur_events)
          }
       }
     };
-    req.open('GET', "src/Files/academics.ics")
+    req.open('GET', fname)
     req.send()
+}
+
+    addIcal("src/Files/sports.ics", "gold")
+    <!-- addIcal("src/Files/sports.ics") -->
 })
             </script>
 
