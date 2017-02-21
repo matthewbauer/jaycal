@@ -94,7 +94,7 @@ app.get('/', function (req, res) {
     if (!req.cookies["userid"] || req.cookies["userid"] == "")
         res.redirect("/login")
     else
-        res.redirect("/dashboard")
+        res.redirect("/calendar")
 })
 
 port = process.env.PORT || 8000
