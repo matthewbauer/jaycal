@@ -27,7 +27,7 @@ if (process.env.PORT)
 app.get('/schedule.ics', function (req, res) {
     userid = req.body.userid || req.query.userid || req.cookies["userid"]
     pwd = req.body.pwd || req.query.pwd || req.cookies["pwd"]
-    key = userid + pwd + "3"
+    key = userid + pwd + "4"
     client.get(key, function (userid, pwd, key, err, reply) {
         if (reply != null) {
             res.header("Content-Type", "text/calendar")
