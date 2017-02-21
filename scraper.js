@@ -120,11 +120,22 @@ function toJCal(obj, id) {
                 "TH": 4,
                 "FR": 5,
                 "SA": 6
-            }[days[0]] - currentDay;
+            }[days[0]] - currentDay
             if (distance < 0) { // monday fix
-                distance += 7
+                if (days.length > 1)
+                    distance = {
+                        "SU": 0,
+                        "MO": 1,
+                        "TU": 2,
+                        "WE" : 3,
+                        "TH": 4,
+                        "FR": 5,
+                        "SA": 6
+                    }[days[1]] - currentDay
+                else
+                    distance += 7
             }
-            start.setDate(start.getDate() + distance);
+            start.setDate(start.getDate() + distance)
 
             start_hours = parseInt(start_time.split(":")[0])
             if (start_time.split(":")[1].endsWith("PM") && !start_time.startsWith("12")) {
@@ -196,7 +207,7 @@ function parseFile(id) {
 agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/602.4.8 (KHTML, like Gecko) Version/10.0.3 Safari/602.4.8"
 
 function getPage(userid, pwd) {
-    return new Promise(function (resolve, reject) {
+    return new Promise(function (userid, pwd, resolve, reject) {
         var j = request.jar()
         request({
             url : "https://sa.ku.edu/psp/csprd/?cmd=login&languageCd=ENG&",
@@ -206,7 +217,7 @@ function getPage(userid, pwd) {
                 'User-Agent': agent
             },
             jar: j,
-        }, function(err, res, body) {
+        }, function(j, err, res, body) {
             if (err) {
                 reject(err)
                 return
@@ -224,8 +235,8 @@ function getPage(userid, pwd) {
                 }
                 resolve(body)
             })
-        })
-    })
+        }.bind(this, j))
+    }.bind(this, userid, pwd))
 }
 
 module.exports.getPage = getPage
