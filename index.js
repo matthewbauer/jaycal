@@ -4,6 +4,7 @@ scraper = require('./scraper')
 bodyParser = require('body-parser')
 cookieParser = require('cookie-parser')
 redis = require("redis")
+crypto = require('crypto')
 
 client = redis.createClient(process.env.REDIS_URL || 6379);
 
@@ -27,7 +28,7 @@ if (process.env.PORT)
 app.get('/schedule.ics', function (req, res) {
     userid = req.body.userid || req.query.userid || req.cookies["userid"]
     pwd = req.body.pwd || req.query.pwd || req.cookies["pwd"]
-    key = userid + pwd + "4"
+    key = crypto.createHash('sha256').update(userid + pwd + "@jaycal.herokuapp.com").digest('base64');
     client.get(key, function (userid, pwd, key, err, reply) {
         if (reply != null) {
             res.header("Content-Type", "text/calendar")
