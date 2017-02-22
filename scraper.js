@@ -397,24 +397,29 @@ function toJCal(obj, id) {
                 ret.push(finalEvent)
             }
 
+            list = [
+                ["dtstamp", {}, "date-time", (new Date()).toISOString()],
+                ["dtstart", {}, "date-time", start.toISOString()],
+                ["dtend", {}, "date-time", start_end.toISOString()],
+                ["location", {}, "text", s.room],
+                ["organizer", {}, "text", "mailto:" + email],
+                ["uid", {}, "text", uid],
+                ["summary", {}, "text", summary],
+                ["description", {}, "text", description],
+                ["rrule", {}, "recur", {
+                    "freq": "WEEKLY",
+                    "byday": days.join(","),
+                    "until": end.toISOString(),
+                }],
+                ["url", {}, "text", url]
+            ]
+
+            if (exdate.length > 3) {
+                list.push(exdate)
+            }
+
             event = ["vevent",
-                     [
-                         ["dtstamp", {}, "date-time", (new Date()).toISOString()],
-                         ["dtstart", {}, "date-time", start.toISOString()],
-                         ["dtend", {}, "date-time", start_end.toISOString()],
-                         ["location", {}, "text", s.room],
-                         ["organizer", {}, "text", "mailto:" + email],
-                         ["uid", {}, "text", uid],
-                         ["summary", {}, "text", summary],
-                         ["description", {}, "text", description],
-                         ["rrule", {}, "recur", {
-                             "freq": "WEEKLY",
-                             "byday": days.join(","),
-                             "until": end.toISOString(),
-                         }],
-                         ["url", {}, "text", url],
-                         exdate
-                     ],
+                     list,
                      []
                     ]
 
