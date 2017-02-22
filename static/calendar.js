@@ -34,6 +34,7 @@ $(document).ready(function() {
         if (req.status === 200) {
             $('#calendar').fullCalendar('addEventSource', fc_events(this.response, {}))
             $('#calendar').fullCalendar('addEventSource', expand_recur_events)
+            $("#loading").hide()
          } else if (req.status == 0) {
          } else {
              window.location.href = "/logout"

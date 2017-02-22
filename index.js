@@ -49,6 +49,14 @@ app.get('/schedule.ics', function (req, res) {
     }.bind(this, userid, pwd, key))
 })
 
+app.get('/clear', function (req, res) {
+    userid = req.body.userid || req.query.userid || req.cookies["userid"]
+    pwd = req.body.pwd || req.query.pwd || req.cookies["pwd"]
+    key = crypto.createHash('sha256').update(userid + pwd + "@jaycal.herokuapp.com").digest('base64')
+    client.del(key)
+    res.redirect("/calendar")
+})
+
 app.get('/calendar', function (req, res) {
     res.sendFile(__dirname + "/static/calendar.html")
 })
