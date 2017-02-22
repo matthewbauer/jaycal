@@ -49,27 +49,11 @@ app.get('/schedule.ics', function (req, res) {
     }.bind(this, userid, pwd, key))
 })
 
-app.post('/calendar', function (req, res) {
-    res.cookie("userid", req.body.userid)
-    res.cookie("pwd", req.body.pwd)
-    res.sendFile(__dirname + "/static/calendar.html")
-})
-
 app.get('/calendar', function (req, res) {
     res.sendFile(__dirname + "/static/calendar.html")
 })
 
 app.get('/dashboard', function (req, res) {
-    if (!req.cookies["userid"] || req.cookies["userid"] == "") {
-        res.redirect("/login")
-        return
-    }
-    res.sendFile(__dirname + "/static/dashboard.html")
-})
-
-app.post('/dashboard', function (req, res) {
-    res.cookie("userid", req.body.userid)
-    res.cookie("pwd", req.body.pwd)
     res.sendFile(__dirname + "/static/dashboard.html")
 })
 
@@ -89,6 +73,12 @@ app.get('/logout', function (req, res) {
 
 app.get('/login', function (req, res) {
     res.sendFile(__dirname + "/static/login.html")
+})
+
+app.post('/login', function (req, res) {
+    res.cookie("userid", req.body.userid)
+    res.cookie("pwd", req.body.pwd)
+    res.redirect("/calendar")
 })
 
 app.get('/', function (req, res) {
