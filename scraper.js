@@ -341,14 +341,15 @@ function toJCal(obj, id) {
             if (exdates[startDay])
                 exdate = ["exdate", {}, "date-time"].concat(exdates[s.dates.split(" - ")[0]].filter(function(d) {
                     date = new Date(d)
-                    date.setDate(date.getDate() + 1) // weird hack
+                    // date.setDate(date.getDate() + 1) // weird hack
                     return days.some(function(n) {
                         return weekDays[n] == date.getDay()
                     })
                 }).map(function(d) {
                     date = new Date(d)
-                    date.setDate(date.getDate() + 1) // weird hack
-                    date.setHours(start_hours + 1) // daylight saving hack
+                    // date.setDate(date.getDate() + 1) // weird hack
+                    // date.setHours(start_hours + 1) // daylight saving hack
+                    date.setHours(start_hours)
                     date.setMinutes(start_time.split(":")[1].slice(0, 2))
                     return date.toISOString()
                 }))
