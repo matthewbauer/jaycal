@@ -462,9 +462,9 @@ function getPage (userid, pwd) {
 }
 
 module.exports.getPage = getPage
-module.exports.parseStr = function (id, s) {
+module.exports.parseStr = function (s) {
   return scrapeScheduleStr(s).then(function (o) {
-    var jcal = toJCal(o.filter(isEnrolled), id)
+    var jcal = toJCal(o.filter(isEnrolled))
     return ical.stringify(jcal)
   })
 }

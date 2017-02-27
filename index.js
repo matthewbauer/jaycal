@@ -38,13 +38,13 @@ function scheduleICS (res, userid, pwd, key, reply) {
     res.header('Content-Type', 'text/calendar')
     res.send(reply)
   } else {
-    scraper.getPage(userid, pwd).then(function (userid, key, body) {
-      return scraper.parseStr(userid, body).then(function (key, r) {
+    scraper.getPage(userid, pwd).then(function (key, body) {
+      return scraper.parseStr(body).then(function (key, r) {
         client.set(key, r)
         res.header('Content-Type', 'text/calendar')
         res.send(r)
       }.bind(this, key))
-    }.bind(this, userid, key)).catch(function (err) {
+    }.bind(this, key)).catch(function (err) {
       res.status(500)
       res.send('error')
       console.error(err)
