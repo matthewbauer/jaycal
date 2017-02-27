@@ -9,8 +9,13 @@ var path = require('path')
 
 var client = redis.createClient(process.env.REDIS_URL || 6379)
 
+var redisConnected = false
+
 client.on('error', function (err) {
-  console.log('Error ' + err)
+})
+
+client.on('ready', function () {
+  redisConnected = true
 })
 
 app.use(express.static('static'))
@@ -28,28 +33,36 @@ if (process.env.PORT) {
   })
 }
 
+function scheduleICS (res, userid, pwd, key, reply) {
+  if (reply != null) {
+    res.header('Content-Type', 'text/calendar')
+    res.send(reply)
+  } else {
+    scraper.getPage(userid, pwd).then(function (userid, key, body) {
+      return scraper.parseStr(userid, body).then(function (key, r) {
+        client.set(key, r)
+        res.header('Content-Type', 'text/calendar')
+        res.send(r)
+      }.bind(this, key))
+    }.bind(this, userid, key)).catch(function (err) {
+      res.status(500)
+      res.send('error')
+      console.error(err)
+    })
+  }
+}
+
 app.get('/schedule.ics', function (req, res) {
   var userid = req.body.userid || req.query.userid || req.cookies['userid']
   var pwd = req.body.pwd || req.query.pwd || req.cookies['pwd']
   var key = crypto.createHash('sha256').update(userid + pwd + '@jaycal.herokuapp.com').digest('base64')
-  client.get(key, function (userid, pwd, key, err, reply) {
-    if (reply != null) {
-      res.header('Content-Type', 'text/calendar')
-      res.send(reply)
-    } else {
-      scraper.getPage(userid, pwd).then(function (userid, key, body) {
-        return scraper.parseStr(userid, body).then(function (key, r) {
-          client.set(key, r)
-          res.header('Content-Type', 'text/calendar')
-          res.send(r)
-        }.bind(this, key))
-      }.bind(this, userid, key)).catch(function (err) {
-        res.status(500)
-        res.send('error')
-        console.log(err)
-      })
-    }
-  }.bind(this, userid, pwd, key))
+  if (redisConnected) {
+    client.get(key, function (userid, pwd, key, err, reply) {
+      scheduleICS(res, userid, pwd, key, reply)
+    }).bind(this, userid, pwd, key)
+  } else {
+    scheduleICS(res, userid, pwd, key, null)
+  }
 })
 
 app.get('/clear', function (req, res) {
