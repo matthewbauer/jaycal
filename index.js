@@ -59,7 +59,7 @@ app.get('/schedule.ics', function (req, res) {
   if (redisConnected) {
     client.get(key, function (userid, pwd, key, err, reply) {
       scheduleICS(res, userid, pwd, key, reply)
-    }).bind(this, userid, pwd, key)
+    }.bind(this, userid, pwd, key))
   } else {
     scheduleICS(res, userid, pwd, key, null)
   }
