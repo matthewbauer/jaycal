@@ -250,27 +250,25 @@ var finals = {
 }
 
 var weekDays = {
-  'SU': 0,
-  'MO': 1,
-  'TU': 2,
-  'WE': 3,
-  'TH': 4,
-  'FR': 5,
-  'SA': 6
+  SU: 0,
+  MO: 1,
+  TU: 2,
+  WE: 3,
+  TH: 4,
+  FR: 5,
+  SA: 6
 }
 
-function toJCal (obj, id) {
-  var email = id + '@ku.edu'
+function toJCal (obj) {
   var events = [].concat.apply([], obj.map(function (c) {
     return [].concat.apply([], c.sections.map(function (s) {
       var days = getDays(s.times)
-      var summary = c.name.split(' - ')[0]
-      var description = c.name +
-          '\nsection number: ' + s.number +
+      var course = c.name.split(' - ')[0]
+      var name = c.name.split(' - ')[1]
+
+      var description = name +
+          '\n\nsection number: ' + s.number +
           '\nunits: ' + c.units
-      if (s.room) {
-        description += '\nroom number: ' + s.room
-      }
       if (s.instructors) {
         description += '\ninstructor: ' + s.instructors.join(', ')
       }
@@ -310,7 +308,7 @@ function toJCal (obj, id) {
       var end = new Date(s.dates.split(' - ')[1])
       end.setDate(end.getDate() - 7)
 
-      var subject = c.name.split(' - ')[0].replace(' ', '+')
+      var subject = course.replace(' ', '+')
       var url = 'https://classes.ku.edu/Classes/CourseSearchAPI.action?classesSearchText=' + subject
 
       var uid = ''
@@ -376,10 +374,9 @@ function toJCal (obj, id) {
             ['dtstart', {}, 'date-time', new Date(finalTimes[0]).toISOString()],
             ['dtend', {}, 'date-time', new Date(finalTimes[1]).toISOString()],
             ['location', {}, 'text', s.room],
-            ['organizer', {}, 'text', 'mailto:' + email],
             ['uid', {}, 'text', 'F' + uid],
-            ['summary', {}, 'text', summary + ' Final'],
-            ['description', {}, 'text', c.name + ' Final'],
+            ['summary', {}, 'text', course + ' Final'],
+            ['description', {}, 'text', description],
             ['url', {}, 'text', url]
           ],
           []
@@ -392,9 +389,8 @@ function toJCal (obj, id) {
         ['dtstart', {}, 'date-time', start.toISOString()],
         ['dtend', {}, 'date-time', startEnd.toISOString()],
         ['location', {}, 'text', s.room],
-        ['organizer', {}, 'text', 'mailto:' + email],
         ['uid', {}, 'text', uid],
-        ['summary', {}, 'text', summary],
+        ['summary', {}, 'text', course],
         ['description', {}, 'text', description],
         ['rrule', {}, 'recur', {
           'freq': 'WEEKLY',
