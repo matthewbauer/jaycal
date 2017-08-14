@@ -55,7 +55,8 @@ function scheduleICS (res, userid, pwd, key, reply) {
 app.get('/schedule.ics', function (req, res) {
   var userid = req.body.userid || req.query.userid || req.cookies['userid']
   var pwd = req.body.pwd || req.query.pwd || req.cookies['pwd']
-  var key = crypto.createHash('sha256').update(userid + pwd + '@jaycal.herokuapp.com').digest('base64')
+  var key = crypto.createHash('sha256')
+      .update(userid + pwd + '@jaycal.herokuapp.com').digest('base64')
   if (redisConnected) {
     client.get(key, function (userid, pwd, key, err, reply) {
       scheduleICS(res, userid, pwd, key, reply)
@@ -68,7 +69,8 @@ app.get('/schedule.ics', function (req, res) {
 app.get('/clear', function (req, res) {
   var userid = req.body.userid || req.query.userid || req.cookies['userid']
   var pwd = req.body.pwd || req.query.pwd || req.cookies['pwd']
-  var key = crypto.createHash('sha256').update(userid + pwd + '@jaycal.herokuapp.com').digest('base64')
+  var key = crypto.createHash('sha256')
+      .update(userid + pwd + '@jaycal.herokuapp.com').digest('base64')
   client.del(key)
   res.redirect('/calendar')
 })

@@ -3,9 +3,13 @@ var ical = require('ical.js')
 var request = require('request')
 
 function scrapeScheduleObj (obj) {
-  var classes = obj.document.getElementById('ACE_STDNT_ENRL_SSV2$0').getElementsByClassName('PSGROUPBOXWBO')
+  var classes = obj.document.getElementById('ACE_STDNT_ENRL_SSV2$0')
+      .getElementsByClassName('PSGROUPBOXWBO')
   return Array.prototype.map.call(classes, function (c) {
-    var rows = Array.prototype.slice.call(c.getElementsByClassName('PSGROUPBOX')[0].getElementsByClassName('PSLEVEL3GRIDNBO')[1].getElementsByTagName('tbody')[0].getElementsByTagName('tr'), 1)
+    var rows = Array.prototype.slice.call(
+      c.getElementsByClassName('PSGROUPBOX')[0]
+        .getElementsByClassName('PSLEVEL3GRIDNBO')[1]
+        .getElementsByTagName('tbody')[0].getElementsByTagName('tr'), 1)
     return {
       name: c.getElementsByClassName('PAGROUPDIVIDER')[0].textContent,
       status: c.getElementsByClassName('PSEDITBOX_DISPONLY')[0].textContent,
@@ -17,12 +21,14 @@ function scrapeScheduleObj (obj) {
       sections: rows.map(function (t) {
         return {
           number: t.getElementsByClassName('PSEDITBOX_DISPONLY')[0].textContent,
-          component: t.getElementsByClassName('PSEDITBOX_DISPONLY')[1].textContent,
+          component: t.getElementsByClassName('PSEDITBOX_DISPONLY')[1]
+            .textContent,
           times: t.getElementsByClassName('PSEDITBOX_DISPONLY')[2].textContent,
           room: t.getElementsByClassName('PSEDITBOX_DISPONLY')[3].textContent,
           dates: t.getElementsByClassName('PSEDITBOX_DISPONLY')[4].textContent,
           // section: t.getElementsByClassName('PSHYPERLINK')[0].textContent,
-          instructors: t.getElementsByClassName('PSLONGEDITBOX')[0].textContent.split(', \n')
+          instructors: t.getElementsByClassName('PSLONGEDITBOX')[0]
+            .textContent.split(', \n')
         }
       }).filter(hasSection)
 
@@ -90,7 +96,8 @@ function hasSection (obj) {
 }
 
 var exdates = {
-  '01/17/2017': ['2017-03-20', '2017-03-21', '2017-03-22', '2017-03-23', '2017-03-24', '2017-05-05']
+  '01/17/2017': ['2017-03-20', '2017-03-21', '2017-03-22', '2017-03-23',
+                 '2017-03-24', '2017-05-05']
 }
 
 var finals = {
@@ -441,7 +448,8 @@ function toJCal (obj) {
       start.setDate(start.getDate() + distance)
 
       var startHours = parseInt(startTime.split(':')[0])
-      if (startTime.split(':')[1].endsWith('PM') && !startTime.startsWith('12')) {
+      if (startTime.split(':')[1].endsWith('PM')
+          && !startTime.startsWith('12')) {
         startHours += 12
       }
       start.setHours(startHours)
@@ -459,11 +467,13 @@ function toJCal (obj) {
       end.setDate(end.getDate() - 7)
 
       var subject = course.replace(' ', '+')
-      var url = 'https://classes.ku.edu/Classes/CourseSearchAPI.action?classesSearchText=' + subject
+      var url = 'https://classes.ku.edu/Classes/CourseSearchAPI.action'
+          + '?classesSearchText=' + subject
 
       var uid = ''
       if (s.number === ' ') {
-        uid = Math.floor(Math.random() * Math.pow(10, 10)) + '@jaycal.herokuapp.com'
+        uid = Math.floor(Math.random() * Math.pow(10, 10))
+          + '@jaycal.herokuapp.com'
       } else {
         uid = s.number + '@jaycal.herokuapp.com'
       }
@@ -473,7 +483,8 @@ function toJCal (obj) {
       // holidays
       var exdate
       if (exdates[startDay]) {
-        exdate = ['exdate', {}, 'date-time'].concat(exdates[s.dates.split(' - ')[0]].filter(function (d) {
+        exdate = ['exdate', {}, 'date-time']
+          .concat(exdates[s.dates.split(' - ')[0]].filter(function (d) {
           var date = new Date(d)
           // date.setDate(date.getDate() + 1) // weird hack
           return days.some(function (n) {
@@ -496,7 +507,8 @@ function toJCal (obj) {
       // exams
       var finalTimes = []
       var classCode = c.name.split(' - ')[0]
-      var startTime_ = startTime.split(':')[0] + ':' + startTime.split(':')[1].slice(0, 2)
+      var startTime_ = startTime.split(':')[0] + ':'
+          + startTime.split(':')[1].slice(0, 2)
       var days_ = days.map(function (d) {
         return {
           'SU': 'S',
@@ -576,7 +588,8 @@ function toJCal (obj) {
   ]
 }
 
-var agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/602.4.8 (KHTML, like Gecko) Version/10.0.3 Safari/602.4.8'
+var agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) '
+  + 'AppleWebKit/602.4.8 (KHTML, like Gecko) Version/10.0.3 Safari/602.4.8'
 
 function getPage (userid, pwd) {
   return new Promise(function (userid, pwd, resolve, reject) {
@@ -595,7 +608,8 @@ function getPage (userid, pwd) {
         return
       }
       request({
-        url: 'https://sa.ku.edu/psc/csprd/EMPLOYEE/HRMS/c/SA_LEARNER_SERVICES.SSR_SSENRL_LIST.GBL',
+        url: 'https://sa.ku.edu/psc/csprd/EMPLOYEE/HRMS/c/'
+          + 'SA_LEARNER_SERVICES.SSR_SSENRL_LIST.GBL',
         headers: {
           'User-Agent': agent
         },
