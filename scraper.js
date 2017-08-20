@@ -601,9 +601,14 @@ function getPage (userid, pwd) {
   return new Promise(function (userid, pwd, resolve, reject) {
     var j = request.jar()
     request({
-      url: 'https://sa.ku.edu/psp/csprd/?&cmd=login&languageCd=ENG',
+      url: 'https://sa.ku.edu/psp/csprd/?cmd=login&languageCd=ENG',
       method: 'POST',
-      form: {userid: userid, pwd: pwd},
+      form: {
+        userid: userid,
+        pwd: pwd,
+        timezoneOffset: 420,
+        submit: "Sign+in"
+      },
       headers: {
         'User-Agent': agent
       },
