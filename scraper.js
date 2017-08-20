@@ -3,8 +3,12 @@ var ical = require('ical.js')
 var request = require('request')
 
 function scrapeScheduleObj (obj) {
-  var classes = obj.document.getElementById('ACE_STDNT_ENRL_SSV2$0')
-      .getElementsByClassName('PSGROUPBOXWBO')
+  var root = obj.document.getElementById('ACE_STDNT_ENRL_SSV2$0')
+  if (root == null) {
+    throw new Error("Invalid HTML file with title " + obj.document.title)
+  }
+
+  var classes = root.getElementsByClassName('PSGROUPBOXWBO')
   return Array.prototype.map.call(classes, function (c) {
     var rows = Array.prototype.slice.call(
       c.getElementsByClassName('PSGROUPBOX')[0]
