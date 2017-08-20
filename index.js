@@ -12,6 +12,7 @@ var client = redis.createClient(process.env.REDIS_URL || 6379)
 var redisConnected = false
 
 client.on('error', function (err) {
+  console.error(err)
 })
 
 client.on('ready', function () {
