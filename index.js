@@ -47,7 +47,7 @@ function scheduleICS (res, userid, pwd, key, reply) {
       }.bind(this, key))
     }.bind(this, key)).catch(function (err) {
       res.status(500)
-      res.send('error')
+      res.send(err.toString())
       console.error(err)
     })
   }
