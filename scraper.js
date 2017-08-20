@@ -606,9 +606,7 @@ function getPage (userid, pwd) {
       followRedirect: false,
       form: {
         userid: userid,
-        pwd: pwd,
-        timezoneOffset: 420,
-        submit: "Sign in"
+        pwd: pwd
       },
       headers: {
         'User-Agent': agent
@@ -619,6 +617,7 @@ function getPage (userid, pwd) {
         reject(err)
         return
       }
+      console.log(j.getCookieString("https://sa.ku.edu/"))
       request({
         url: 'https://sa.ku.edu/psc/csprd/EMPLOYEE/HRMS/c/'
           + 'SA_LEARNER_SERVICES.SSR_SSENRL_LIST.GBL',
