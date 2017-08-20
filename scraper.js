@@ -594,8 +594,8 @@ function toJCal (obj) {
   ]
 }
 
-var agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) '
-  + 'AppleWebKit/602.4.8 (KHTML, like Gecko) Version/10.0.3 Safari/602.4.8'
+var agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:53.0) '
+    + 'Gecko/20100101 Firefox/53.0'
 
 function getPage (userid, pwd) {
   return new Promise(function (userid, pwd, resolve, reject) {
@@ -613,6 +613,7 @@ function getPage (userid, pwd) {
         reject(err)
         return
       }
+      //https://sa.ku.edu/psc/csprd/EMPLOYEE/HRMS/s/WEBLIB_PTBR.ISCRIPT1.FieldFormula.IScript_StartPage
       request({
         url: 'https://sa.ku.edu/psc/csprd/EMPLOYEE/HRMS/c/'
           + 'SA_LEARNER_SERVICES.SSR_SSENRL_LIST.GBL',
