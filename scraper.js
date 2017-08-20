@@ -609,7 +609,8 @@ function getPage (userid, pwd) {
         pwd: pwd
       },
       headers: {
-        'User-Agent': agent
+        'User-Agent': agent,
+        'Referer': 'https://sa.ku.edu/psp/csprd/?cmd=login&languageCd=ENG&'
       },
       jar: j
     }, function (j, err, res, body) {
