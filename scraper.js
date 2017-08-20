@@ -603,11 +603,12 @@ function getPage (userid, pwd) {
     request({
       url: 'https://sa.ku.edu/psp/csprd/?cmd=login&languageCd=ENG',
       method: 'POST',
+      followRedirect: false,
       form: {
         userid: userid,
         pwd: pwd,
         timezoneOffset: 420,
-        submit: "Sign+in"
+        submit: "Sign in"
       },
       headers: {
         'User-Agent': agent
@@ -618,7 +619,6 @@ function getPage (userid, pwd) {
         reject(err)
         return
       }
-      //https://sa.ku.edu/psc/csprd/EMPLOYEE/HRMS/s/WEBLIB_PTBR.ISCRIPT1.FieldFormula.IScript_StartPage
       request({
         url: 'https://sa.ku.edu/psc/csprd/EMPLOYEE/HRMS/c/'
           + 'SA_LEARNER_SERVICES.SSR_SSENRL_LIST.GBL',
