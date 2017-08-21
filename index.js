@@ -1,3 +1,6 @@
+// timezone needs to be UTC for some of the date time scraping to work
+process.env.TZ = 'UTC'
+
 var express = require('express')
 var app = express()
 var scraper = require('./scraper')
