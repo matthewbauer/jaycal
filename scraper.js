@@ -587,7 +587,7 @@ function toJCal (obj) {
     'vcalendar',
     [
       ['calscale', {}, 'text', 'GREGORIAN'],
-      ['prodid', {}, 'text', '-//kucal//KU Calendar//EN'],
+      ['prodid', {}, 'text', '-//hacksw/handcal//NONSGML v1.0//EN'],
       ['version', {}, 'text', '2.0']
     ],
     events
@@ -603,14 +603,12 @@ function getPage (userid, pwd) {
     request({
       url: 'https://sa.ku.edu/psp/csprd/?cmd=login&languageCd=ENG',
       method: 'POST',
-      followRedirect: false,
       form: {
         userid: userid,
         pwd: pwd
       },
       headers: {
-        'User-Agent': agent,
-        'Referer': 'https://sa.ku.edu/psp/csprd/?cmd=login&languageCd=ENG&'
+        'User-Agent': agent
       },
       jar: j
     }, function (j, err, res, body) {
